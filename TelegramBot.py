@@ -28,7 +28,7 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def func(message):
-    a = str(message)
+    a = str(message) # Получаем из ответа пользователя "message" и придаем ему аргумент "a"
 
     # Просмотр ассортимента
     if message.text == "Посмотреть ассортимент": 
@@ -38,10 +38,6 @@ def func(message):
         btn_back = types.KeyboardButton("Назад")
         markup.add(btn_glue, btn_paint, btn_back)
         bot.send_message(message.chat.id, text='В ассортименте имеется:\n 1. Клей ПВА Момент столяр\n 2. Краска для пола Dulux', reply_markup=markup)
-    
-    elif message.text == "проверка":
-        bot.send_message(message.chat.id, text=a)
-    
     
     # Клей
     elif message.text == "Клей":
@@ -56,16 +52,16 @@ def func(message):
     # Клей 1 кг
     elif message.text == "Клей 1 кг":
         with con:
-            data = con.execute("SELECT * FROM database WHERE name=?", [a])
+            data = con.execute("SELECT * FROM database WHERE name=?", [a]) # Проверяет есть ли аргумент "a" в базе данных
             res = data.fetchone()
-            if not res:
+            if not res: # Если нет - товара нет
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 btn_750g = types.KeyboardButton("750 грамм")
                 btn_250g = types.KeyboardButton("250 грамм ")
                 btn_back = types.KeyboardButton("Назад")
                 markup.add(btn_250g, btn_750g, btn_back)
                 bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
-            else:
+            else: # Если да - показывает описание и фото
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 btn_750g = types.KeyboardButton("750 грамм")
                 btn_250g = types.KeyboardButton("250 грамм ")
