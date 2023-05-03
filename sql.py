@@ -1,6 +1,8 @@
 import sqlite3 as sl
 
 con = sl.connect('database.db')
+
+# Создаем таблицу
 try:
     with con:
         con.execute("""
@@ -16,8 +18,7 @@ except sl.OperationalError:
 
 # Записываем в базу какие-то записи
 sql = 'INSERT INTO database (name, stock, description) values( ?, ?, ?)'
-data = [ 
-    ('1 кг', '1', 'Клей ПВА Момент столяр 1 кг'),
-]  # data Может быть любыми вашими записями, как вы их запишите, это лишь ваше дело
+data = [('1 кг', '1', 'Клей ПВА Момент столяр 1 кг')]
+# Выводим
 with con:
     con.executemany(sql, data)

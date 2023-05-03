@@ -7,7 +7,7 @@ con = sl.connect('database.db', check_same_thread=False)
 bot = telebot.TeleBot('6014768020:AAFXQbD37VvsqVBO0wVy83YCHOKzDkGoOrE')
 
 # Фотографии
-# Клей
+# Клей  
 photo_glue1kg = open('C:\BotTelegramPython\database\PVA\PVA3KG.jpg', 'rb')
 photo_glue750g = open('C:\BotTelegramPython\database\PVA\PVA750G.jpg', 'rb')
 photo_glue250g = open('C:\BotTelegramPython\database\PVA\PVA250G.jpg', 'rb')
@@ -43,77 +43,125 @@ def func(message):
     elif message.text == "Клей":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn_1kg = types.KeyboardButton("Клей 1 кг")
-        btn_750g = types.KeyboardButton("750 грамм")
-        btn_250g = types.KeyboardButton("250 грамм ")
+        btn_750g = types.KeyboardButton("Клей 750 грамм")
+        btn_250g = types.KeyboardButton("Клей 250 грамм ")
         btn_back = types.KeyboardButton("Назад")
         markup.add(btn_1kg, btn_250g, btn_750g, btn_back)
-        bot.send_message(message.chat.id, text='Клей ПВА Момент столяр\n Сколько нужно клея 1 кг, 750 грамм, 250 грамм?', reply_markup=markup)
+        bot.send_message(message.chat.id, text='Клей ПВА Момент столяр\nНеобходимое количество клея 1 кг, 750 грамм, 250 грамм?', reply_markup=markup)
         
     # Клей 1 кг
     elif message.text == "Клей 1 кг":
         with con:
             data = con.execute("SELECT * FROM database WHERE name=?", [a]) # Проверяет есть ли аргумент "a" в базе данных
             res = data.fetchone()
-            if not res: # Если нет - товара нет
+
+            if res: # Если нет - товара нет
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-                btn_750g = types.KeyboardButton("750 грамм")
-                btn_250g = types.KeyboardButton("250 грамм ")
+                btn_750g = types.KeyboardButton("Клей 750 грамм")
+                btn_250g = types.KeyboardButton("Клей 250 грамм ")
                 btn_back = types.KeyboardButton("Назад")
                 markup.add(btn_250g, btn_750g, btn_back)
                 bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
             else: # Если да - показывает описание и фото
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-                btn_750g = types.KeyboardButton("750 грамм")
-                btn_250g = types.KeyboardButton("250 грамм ")
+                btn_750g = types.KeyboardButton("Клей 750 грамм")
+                btn_250g = types.KeyboardButton("Клей 250 грамм ")
                 btn_back = types.KeyboardButton("Назад")
                 markup.add(btn_250g, btn_750g, btn_back)
                 bot.send_message(message.chat.id, text='Клей ПВА Момент столяр 1 кг', reply_markup=markup)
                 bot.send_photo(message.chat.id, photo_glue1kg)
         
     # Клей 750 грамм
-    elif message.text == "750 грамм":
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn_750g = types.KeyboardButton("1 кг")
-        btn_250g = types.KeyboardButton("250 грамм ")
-        btn_back = types.KeyboardButton("Назад")
-        markup.add(btn_250g, btn_750g, btn_back)
-        bot.send_message(message.chat.id, text='Клей ПВА Момент столяр 750 грамм', reply_markup=markup)
-        bot.send_photo(message.chat.id, photo_glue750g)
+    elif message.text == "Клей 750 грамм":
+        with con:
+            data = con.execute("SELECT * FROM database WHERE name=?", [a])
+            res = data.fetchone()
+            
+            if res:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_1kg = types.KeyboardButton("Клей 1 кг")
+                btn_250g = types.KeyboardButton("Клей 250 грамм ")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_250g, btn_1kg, btn_back)
+                bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
+            else:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_1kg = types.KeyboardButton("Клей 1 кг")
+                btn_250g = types.KeyboardButton("Клей 250 грамм ")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_250g, btn_1kg, btn_back)
+                bot.send_message(message.chat.id, text='Клей ПВА Момент столяр 750 грамм', reply_markup=markup)
+                bot.send_photo(message.chat.id, photo_glue750g)
 
     # Клей 250 грамм
-    elif message.text == "250 грамм":
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn_750g = types.KeyboardButton("750 грамм")
-        btn_250g = types.KeyboardButton("1 кг ")
-        btn_back = types.KeyboardButton("Назад")
-        markup.add(btn_250g, btn_750g, btn_back)
-        bot.send_message(message.chat.id, text='Клей ПВА Момент столяр 250 грамм', reply_markup=markup)
-        bot.send_photo(message.chat.id, photo_glue250g)
+    elif message.text == "Клей 250 грамм":
+        with con:
+            data = con.execute("SELECT * FROM database WHERE name=?", [a])
+            res = data.fetchone()
+
+            if res:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_750g = types.KeyboardButton("Клей 750 грамм")
+                btn_1kg = types.KeyboardButton("Клей 1 кг ")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_1kg, btn_1kg, btn_back)
+                bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
+            else:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_750g = types.KeyboardButton("Клей 750 грамм")
+                btn_1kg = types.KeyboardButton("Клей 1 кг ")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_1kg, btn_750g, btn_back)
+                bot.send_message(message.chat.id, text='Клей ПВА Момент столяр 250 грамм', reply_markup=markup)
+                bot.send_photo(message.chat.id, photo_glue250g)
 
     # Краска
     elif message.text == "Краска":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn_1l = types.KeyboardButton("1 литр")
-        btn_25l = types.KeyboardButton("2,5 литров")
+        btn_1l = types.KeyboardButton("Краска 1 литр")
+        btn_25l = types.KeyboardButton("Краска 2,5 литров")
         btn_back = types.KeyboardButton("Назад")
         markup.add(btn_1l, btn_25l, btn_back)
-        bot.send_message(message.chat.id, text='Краска для пола Dulux\nСколько нужно краски: 1 литр или 2,5 литров?', reply_markup=markup)
+        bot.send_message(message.chat.id, text='Краска для пола Dulux\nСколько нужно краски 1 литр или 2,5 литров?', reply_markup=markup)
 
-    elif message.text == "1 литр":
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn_25l = types.KeyboardButton("2,5 литров")
-        btn_back = types.KeyboardButton("Назад")
-        markup.add(btn_25l, btn_back)
-        bot.send_message(message.chat.id, text='Краска для пола Dulux 1 литр', reply_markup=markup)
-        bot.send_photo(message.chat.id, photo_paint1L)
+    elif message.text == "Краска 1 литр":
+        with con:
+            data = con.execute("SELECT * FROM database WHERE name=?", [a])
+            res = data.fetchone()
+
+            if res:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_25l = types.KeyboardButton("Краска 2,5 литров")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_25l, btn_back)
+                bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
+
+            else:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_25l = types.KeyboardButton("Краска 2,5 литров")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_25l, btn_back)
+                bot.send_message(message.chat.id, text='Краска для пола Dulux 1 литр', reply_markup=markup)
+                bot.send_photo(message.chat.id, photo_paint1L)
         
-    elif message.text == "2,5 литров":
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn_1l = types.KeyboardButton("1 литр")
-        btn_back = types.KeyboardButton("Назад")
-        markup.add(btn_1l, btn_back)
-        bot.send_message(message.chat.id, text='Краска для пола Dulux 2,5 литров')
-        bot.send_photo(message.chat.id, photo_paint25L, caption='Желаете купить?', reply_markup=markup)
+    elif message.text == "Краска 2,5 литров":
+        with con:
+            data = con.execute("SELECT * FROM database WHERE name=?", [a])
+            res = data.fetchone()
+
+            if res:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_1l = types.KeyboardButton("Краска 1 литр")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_1l, btn_back)
+                bot.send_message(message.chat.id, text='Товара нет', reply_markup=markup)
+            else:
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                btn_1l = types.KeyboardButton("Краска 1 литр")
+                btn_back = types.KeyboardButton("Назад")
+                markup.add(btn_1l, btn_back)
+                bot.send_message(message.chat.id, text='Краска для пола Dulux 2,5 литров', reply_markup=markup)
+                bot.send_photo(message.chat.id, photo_paint25L)
 
 
     # Возврат в главное меню
@@ -125,7 +173,7 @@ def func(message):
         bot.send_message(message.chat.id, text="Привет, {0.first_name}! Я тестовый бот для магазина СтройБаза".format(message.from_user), reply_markup=markup)
         
     else:
-        bot.send_message(message.chat.id, text='error 1')
+        bot.send_message(message.chat.id, text='error menu')
              
 # Запуск бота
 if __name__ == '__main__':
